@@ -12,22 +12,24 @@ public class TelaProdutos extends JFrame {
 
     public TelaProdutos() {
         super("Cadastro de Produtos");
-        setSize(750, 400); // altura menor
+        setSize(750, 400);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // ------------------ MENU ------------------
+        //MENU 
         JMenuBar menuBar = new JMenuBar();
         JMenu menuArquivo = new JMenu("Arquivo");
         JMenuItem sair = new JMenuItem("Sair");
+        JMenuItem relatorio = new JMenuItem("Relatorio");
         sair.addActionListener(e -> System.exit(0));
+        menuArquivo.add(relatorio);
         menuArquivo.add(sair);
         menuBar.add(menuArquivo);
         setJMenuBar(menuBar);
 
-        // ------------------ PAINEL SUPERIOR ------------------
-        JPanel painelTop = new JPanel(new FlowLayout(FlowLayout.CENTER)); // centralizado
+        //PARTE SUPERIOR
+        JPanel painelTop = new JPanel(new FlowLayout(FlowLayout.CENTER));
         painelTop.add(new JLabel("Pesquisar por nome:"));
         txtPesquisa = new JTextField(15);
         painelTop.add(txtPesquisa);
@@ -41,7 +43,7 @@ public class TelaProdutos extends JFrame {
 
         add(painelTop, BorderLayout.NORTH);
 
-        // ------------------ TABELA ------------------
+        //TABELA 
         modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Nome");
@@ -49,7 +51,7 @@ public class TelaProdutos extends JFrame {
         modelo.addColumn("Preço");
 
         tabela = new JTable(modelo);
-        tabela.setRowHeight(25); // altura menor
+        tabela.setRowHeight(25);
         tabela.setFillsViewportHeight(true);
 
         // Centralizar dados na tabela
@@ -61,10 +63,10 @@ public class TelaProdutos extends JFrame {
 
         add(new JScrollPane(tabela), BorderLayout.CENTER);
 
-        // ------------------ CARREGAR DADOS ------------------
+        
         carregarProdutos("");
 
-        // ------------------ EVENTOS ------------------
+        //EVENTOS 
         // Pesquisa automática enquanto digita
         txtPesquisa.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { pesquisar(); }

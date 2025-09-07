@@ -5,54 +5,38 @@ import java.sql.*;
 public class TelaLogin extends JFrame {
     private JTextField txtUsuario;
     private JPasswordField txtSenha;
-    private JButton btnEntrar, btnLimpar;
 
     public TelaLogin() {
         super("Login no Sistema");
-        setSize(350, 200);
+        setSize(300, 150);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Painel central com GridBagLayout
-        JPanel painel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5); // espaçamento entre componentes
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.CENTER;
+        JPanel painelCampos = new JPanel(new GridLayout(2, 2, 5, 5));
+        painelCampos.add(new JLabel("Usuário:"));
+        txtUsuario = new JTextField();
+        painelCampos.add(txtUsuario);
 
-        // Linha 0 - Usuário
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        painel.add(new JLabel("Usuário:"), gbc);
-        gbc.gridx = 1;
-        txtUsuario = new JTextField(15);
-        painel.add(txtUsuario, gbc);
+        painelCampos.add(new JLabel("Senha:"));
+        txtSenha = new JPasswordField();
+        painelCampos.add(txtSenha);
 
-        // Linha 1 - Senha
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        painel.add(new JLabel("Senha:"), gbc);
-        gbc.gridx = 1;
-        txtSenha = new JPasswordField(15);
-        painel.add(txtSenha, gbc);
+        JPanel painel = new JPanel();
+        painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
+        painel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        painel.add(painelCampos);
 
-        // Linha 2 - Botões
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
+        JPanel botoes = new JPanel(new FlowLayout());
+        JButton btnEntrar = new JButton("Entrar");
+        JButton btnLimpar = new JButton("Limpar");
+        botoes.add(btnEntrar);
+        botoes.add(btnLimpar);
 
-        JPanel painelBotoes = new JPanel(new FlowLayout());
-        btnEntrar = new JButton("Entrar");
-        btnLimpar = new JButton("Limpar");
-        painelBotoes.add(btnEntrar);
-        painelBotoes.add(btnLimpar);
-
-        painel.add(painelBotoes, gbc);
+        painel.add(Box.createVerticalStrut(10));
+        painel.add(botoes);
 
         add(painel);
 
-        // Eventos
         btnEntrar.addActionListener(e -> autenticar());
         btnLimpar.addActionListener(e -> {
             txtUsuario.setText("");
