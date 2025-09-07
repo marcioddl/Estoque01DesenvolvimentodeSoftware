@@ -159,7 +159,10 @@ public class TelaProdutos extends JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao excluir produto: " + ex.getMessage());
         }
     }
-
+private void relatorio(){
+    
+}
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new TelaProdutos().setVisible(true));
     }
