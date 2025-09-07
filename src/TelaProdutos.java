@@ -88,7 +88,7 @@ public class TelaProdutos extends JFrame {
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, "%" + nomeFiltro + "%");
+            stmt.setString(1,nomeFiltro + "%");
             ResultSet rs = stmt.executeQuery();
 
             modelo.setRowCount(0);
