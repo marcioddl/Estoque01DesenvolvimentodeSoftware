@@ -23,6 +23,7 @@ public class TelaProdutos extends JFrame {
         JMenuItem sair = new JMenuItem("Sair");
         JMenuItem relatorio = new JMenuItem("Relatorio");
         sair.addActionListener(e -> System.exit(0));
+        //relatorio.addActionListener(e -> relatorio());
         menuArquivo.add(relatorio);
         menuArquivo.add(sair);
         menuBar.add(menuArquivo);
