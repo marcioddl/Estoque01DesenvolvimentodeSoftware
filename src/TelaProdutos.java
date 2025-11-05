@@ -77,6 +77,7 @@ public class TelaProdutos extends JFrame {
             private void pesquisar() {
                 carregarProdutos(txtPesquisa.getText().trim());
             }
+      
         });
 
         btnInserir.addActionListener(e -> new DialogInserirProduto(this).setVisible(true));
