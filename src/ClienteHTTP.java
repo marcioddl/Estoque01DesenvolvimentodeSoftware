@@ -14,7 +14,7 @@ public class ClienteHTTP {
     private int codRetorno;
     private String resposta;
 
-    private final int TIMEOUT = 5000; // 5 segundos
+    private final int TIMEOUT = 5000; 
 
     public ClienteHTTP(String usuario, String senha, String url) throws Exception {
         this.usuario = usuario;
