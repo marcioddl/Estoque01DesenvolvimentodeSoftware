@@ -7,7 +7,7 @@ import java.net.MalformedURLException;
 
 public class TelaPIX {
 
-    // Construtor agora recebe os dados da compra
+    // recebe os dados da compra
     public TelaPIX(String nome, String valor, String idTransacao) {
         JFrame frame = new JFrame("Pagamento via PIX");
         
@@ -25,7 +25,6 @@ public class TelaPIX {
             if (imageFile.exists()) {
                 String imageUri = imageFile.toURI().toURL().toString();
 
-                // HTML Melhorado com os dados
                 String htmlContent = "<html><body style='font-family: sans-serif; padding: 10px;'>"
                     + "<div style='border: 2px solid #000000ff; padding: 15px; text-align: center; border-radius: 10px;'>"
                     + "  <h2 style='color: #060606ff;'>Pagamento via PIX</h2>"
@@ -67,12 +66,11 @@ public class TelaPIX {
         JScrollPane scrollPane = new JScrollPane(editorPane);
         frame.add(scrollPane, BorderLayout.CENTER); 
         
-        frame.setSize(400, 600); // Aumentei um pouco a altura
+        frame.setSize(400, 600);
         frame.setLocationRelativeTo(null); 
         frame.setVisible(true);
     }
     
-    // Construtor vazio para manter compatibilidade (opcional)
     public TelaPIX() {
         this("Desconhecido", "0,00", "0000");
     }

@@ -12,15 +12,14 @@ public class trataJSON {
     public pessoa tratarString() {
         pessoa p = new pessoa(); 
         
-        // 1. Tenta extrair a mensagem (msg)
+        // extrair a mensagem
         String msgReal = "Processado";
         if(json.contains("\"msg\":")) {
             try {
-                // Lógica simples para pegar o texto entre aspas depois de "msg":
+                // remover aspas da mensagem
                 String[] partes = json.split("\"msg\":");
                 if (partes.length > 1) {
-                    String resto = partes[1].trim();
-                    // Remove aspas iniciais e finais do valor
+                    String resto = partes[1].trim();                   
                     if(resto.startsWith("\"")) resto = resto.substring(1);
                     int fim = resto.indexOf("\"");
                     if(fim > 0) msgReal = resto.substring(0, fim);
@@ -29,8 +28,7 @@ public class trataJSON {
         }
         p.setRetmsg(msgReal);
 
-        // 2. Identifica o Modo (PIX, BOLETO, CARTAO ou ERRO)
-        // Ignora maiúsculas/minúsculas para ser robusto
+        // Identifica o Modo
         String jsonUpper = json.toUpperCase();
         
         if (jsonUpper.contains("PIX")) {
@@ -40,11 +38,10 @@ public class trataJSON {
         } else if (jsonUpper.contains("BOLETO")) {
             p.setModo("BOLETO"); 
         } else {
-            // Se não achou nenhuma palavra chave, é erro
             p.setModo("ERRO");
         }
         
-        // 3. ID
+        // ID
         p.setId("REQ-" + System.currentTimeMillis());
         
         return p;

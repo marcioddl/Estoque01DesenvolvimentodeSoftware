@@ -4,24 +4,20 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-// --- IMPORTS DOS SEUS PACOTES ---
 import br.classesimportantes.pessoas.*;
 import br.classesimportantes.acessoapi.*;
 import br.classesimportantes.tratajson.*;
 
 public class TelaProdutos extends JFrame {
     
-    // Componentes Visuais
     private JTextField txtNome, txtCPF, txtTelefone, txtCartao, txtValor;
     private JLabel lblCartao;
     private JComboBox<String> comboPagamento;
     private JTextArea areaLog;
     private JButton btnEmitir, btnImprimir, btnLimpar;
     
-    // --- CORREÇÃO: Variável global para ser acessada no botão ---
     private JPanel panelForm; 
     
-    // Objetos de Negócio
     private pessoa transacaoAtual;
     private QRCodeGenerator QRcode;
     public listaDePessoas lista; 
@@ -41,8 +37,7 @@ public class TelaProdutos extends JFrame {
         construirInterface();
     }
 
-    private void construirInterface() {
-        // --- 1. TOPO ---
+    private void construirInterface() { // barra de cima
         JPanel panelTopo = new JPanel();
         panelTopo.setBackground(new Color(0, 51, 102)); 
         panelTopo.setPreferredSize(new Dimension(getWidth(), 60));
@@ -52,16 +47,16 @@ public class TelaProdutos extends JFrame {
         panelTopo.add(lblTitulo);
         add(panelTopo, BorderLayout.NORTH);
 
-        // --- 2. CENTRO ---
+        //CENTRO
         JPanel panelCentro = new JPanel(new GridLayout(1, 2, 20, 0)); 
         panelCentro.setBackground(new Color(240, 242, 245));
         panelCentro.setBorder(new EmptyBorder(10, 20, 10, 20));
 
-        // >>> ESQUERDA: FORMULÁRIO <<<
+        // formulario
         JPanel panelFormulario = new JPanel(new BorderLayout());
         panelFormulario.setOpaque(false);
 
-        // --- CORREÇÃO: Instanciando a variável global panelForm ---
+        // instanciando a variável global panelForm
         panelForm = new JPanel(new GridLayout(0, 1, 0, 10)); 
         panelForm.setBackground(Color.WHITE);
         panelForm.setBorder(BorderFactory.createCompoundBorder(
@@ -69,7 +64,6 @@ public class TelaProdutos extends JFrame {
             new EmptyBorder(20, 20, 20, 20)
         ));
 
-        // Adicionando Campos
         panelForm.add(criarLabel("Dados do Cliente"));
         panelForm.add(criarInput("Nome Completo:", txtNome = new JTextField()));
         panelForm.add(criarInput("CPF (11 dígitos):", txtCPF = new JTextField()));
@@ -78,7 +72,6 @@ public class TelaProdutos extends JFrame {
         panelForm.add(new JSeparator());
         panelForm.add(criarLabel("Pagamento"));
         
-        // Combo
         JPanel pPag = new JPanel(new GridLayout(2, 1));
         pPag.setBackground(Color.WHITE);
         pPag.add(new JLabel("Forma de Pagamento:"));
@@ -88,7 +81,7 @@ public class TelaProdutos extends JFrame {
         pPag.add(comboPagamento);
         panelForm.add(pPag);
 
-        // Cartão (Hack para layout)
+        // Cartão
         lblCartao = new JLabel("Número do Cartão:");
         txtCartao = new JTextField();
         JPanel pCartao = criarInput("", txtCartao); 
@@ -97,7 +90,6 @@ public class TelaProdutos extends JFrame {
         pCartao.add(txtCartao);
         panelForm.add(pCartao);
         
-        // Estado inicial: Escondido
         lblCartao.setVisible(false); 
         txtCartao.setVisible(false);
 
@@ -105,7 +97,7 @@ public class TelaProdutos extends JFrame {
 
         panelFormulario.add(panelForm, BorderLayout.CENTER);
 
-        // Botões
+        // botões formul
         JPanel panelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 15));
         panelBotoes.setOpaque(false);
         btnLimpar = new JButton("Limpar");
@@ -118,7 +110,7 @@ public class TelaProdutos extends JFrame {
         panelBotoes.add(btnImprimir);
         panelFormulario.add(panelBotoes, BorderLayout.SOUTH);
 
-        // >>> DIREITA: LOG <<<
+        // log direita
         JPanel panelLog = new JPanel(new BorderLayout());
         panelLog.setBorder(BorderFactory.createTitledBorder(
             new LineBorder(Color.GRAY), "Console de Debug (API Logs)"
@@ -153,12 +145,10 @@ public class TelaProdutos extends JFrame {
             txtCartao.setVisible(isCartao);
             if(!isCartao) txtCartao.setText("");
             
-            // --- CORREÇÃO: Agora panelForm é global e visível aqui ---
             panelForm.revalidate(); 
             panelForm.repaint();
         });
 
-        // Limpar
         btnLimpar.addActionListener(e -> {
             txtNome.setText(""); txtCPF.setText(""); txtTelefone.setText("");
             txtValor.setText(""); txtCartao.setText(""); 
@@ -203,7 +193,6 @@ public class TelaProdutos extends JFrame {
                         logSistema("Resposta do Servidor recebida!");
                         logSistema("HTTP STATUS CODE: " + httpCode);
                         
-                        // Se deu sucesso ou se a API retornou o JSON esperado mesmo com erro lógico
                         if (httpCode == 200 || jsonResposta.contains("cod_retorno")) {
                             logSistema("JSON RETORNADO:\n" + jsonResposta);
                             
@@ -228,7 +217,6 @@ public class TelaProdutos extends JFrame {
                                      if(s != null) System.out.println("Registro: " + s);
                                     }
                             
-                            // Se o modo for ERRO, avisa diferente
                             if("ERRO".equals(transacaoAtual.getModo())) {
                                 logSistema(">>> FALHA NA TRANSAÇÃO <<<");
                                 alerta("Erro na API: " + transacaoAtual.getRetmsg());
@@ -256,7 +244,6 @@ public class TelaProdutos extends JFrame {
         });
 
         // IMPRIMIR
-// --- BOTÃO IMPRIMIR (CORRIGIDO) ---
         btnImprimir.addActionListener(e -> {
             if(transacaoAtual == null || transacaoAtual.getModo() == null) {
                 alerta("Realize o processamento primeiro.");
@@ -275,16 +262,14 @@ public class TelaProdutos extends JFrame {
             if("PIX".equals(modo) || "1".equals(modo)) {
                 try { 
                     QRcode.gerarQRCode(transacaoAtual.getId()); 
-                    // Passa os dados para a TelaPIX
                     new TelaPIX(txtNome.getText(), txtValor.getText(), transacaoAtual.getId()); 
                 } 
                 catch(Exception ex) { 
                     alerta("Erro QR: " + ex.getMessage()); 
                 }
             } 
-            // 2. CASO BOLETO (ESTAVA FALTANDO!)
+            // 2. CASO BOLETO
             else if ("BOLETO".equals(modo) || "2".equals(modo)) {
-                // Abre a TelaBoleto passando Valor e Nome
                 new TelaBoleto(txtValor.getText(), txtNome.getText());
             } 
             // 3. CASO CARTÃO

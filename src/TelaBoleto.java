@@ -9,17 +9,13 @@ public class TelaBoleto extends JFrame {
     public TelaBoleto(String valor, String nome) {
         super("Visualização de Boleto");
         
-        // Configurações da Janela
         setSize(450, 550);
-        // DISPOSE fecha só essa janela, não o sistema todo
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Gera um código de barras fictício
         String codigoBarras = gerarCodigoBarras();
 
-        // --- CONTEÚDO VISUAL (HTML para formatar bonito) ---
         JEditorPane editorPane = new JEditorPane();
         editorPane.setContentType("text/html");
         editorPane.setEditable(false);
@@ -45,7 +41,6 @@ public class TelaBoleto extends JFrame {
         editorPane.setText(html);
         add(new JScrollPane(editorPane), BorderLayout.CENTER);
 
-        // --- BOTÃO DE AÇÃO ---
         JButton btnImprimir = new JButton("Imprimir / Salvar PDF");
         btnImprimir.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnImprimir.setBackground(null);
@@ -55,7 +50,7 @@ public class TelaBoleto extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    editorPane.print(); // Abre a janela de impressão do sistema
+                    editorPane.print();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Erro ao imprimir: " + ex.getMessage());
                 }
@@ -65,8 +60,6 @@ public class TelaBoleto extends JFrame {
         add(btnImprimir, BorderLayout.SOUTH);
         setVisible(true);
     }
-
-    // Construtor vazio caso seja chamado sem parâmetros
     public TelaBoleto() {
         this("0,00", "Consumidor Final");
     }
